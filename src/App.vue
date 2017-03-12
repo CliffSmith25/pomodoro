@@ -17,6 +17,7 @@
         <h2 v-on:click="toggleTimeType">{{ timeType }}</h2>
       </div>
       <audio ref="alarm" src="/static/alarm.mp3"></audio>
+      <h4><a href="https://github.com/CliffSmith25/pomodoro">View the source code here</a></h4>
     </div>
   </div>
 </template>
@@ -28,8 +29,8 @@ export default {
   data () {
     return {
       timeFor: 'pom',
-      breakTime: 1,
-      pomTime: 1,
+      breakTime: 5,
+      pomTime: 25,
       timerRunning: false,
       timerCode: '',
       secondsElapsed: 0,
