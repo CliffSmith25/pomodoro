@@ -14,10 +14,9 @@
         <h1 v-on:click="timeToggle">{{ timeLeftFormatted }}</h1>
       </div>
       <div id="type">
-        <h2>{{ timeType }}</h2>
+        <h2 v-on:click="toggleTimeType">{{ timeType }}</h2>
       </div>
-
-      <button v-on:click="alarmSound">Click me</button>
+      <audio ref="alarm" src="/static/alarm.mp3"></audio>
     </div>
   </div>
 </template>
@@ -34,8 +33,7 @@ export default {
       timerRunning: false,
       timerCode: '',
       secondsElapsed: 0,
-      timeType: 'Pomodoro',
-      alarm: new Audio('./alarm.mp3')
+      timeType: 'Pomodoro'
     }
   },
   computed: {
@@ -66,7 +64,7 @@ export default {
         this.timeToggle()
         this.secondsElapsed = 0
       }
-      this.pomTime--
+      if (this.pomTime !== 1) this.pomTime--
     },
     incBreak: function () {
       if (this.timeType === 'Break' && this.timerRunning === true) {
@@ -80,7 +78,7 @@ export default {
         this.timeToggle()
         this.secondsElapsed = 0
       }
-      this.breakTime--
+      if (this.breakTime !== 1) this.breakTime--
     },
     timeToggle: function () {
       if (this.timerRunning === true) {
@@ -94,13 +92,13 @@ export default {
     timeTick: function () {
       this.secondsElapsed++
       if (this.timeLeft === 0) {
-        this.timeToggle()
         this.alarmSound()
-        this.secondsElapsed = 0
         this.toggleTimeType()
       }
     },
     toggleTimeType: function () {
+      this.timeToggle()
+      this.secondsElapsed = 0
       if (this.timeType === 'Break') {
         this.timeType = 'Pomodoro'
       } else {
@@ -108,7 +106,7 @@ export default {
       }
     },
     alarmSound: function () {
-      this.alarm.play()
+      this.$refs.alarm.play()
     }
   }
 }
@@ -122,11 +120,34 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
 }
 
+h1, h2, h3 {
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 5em;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 4em;
+  align-self: center;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+h3 {
+  font-size: 3em;
+  align-self: center;
+}
 
 #spacer {
-  width: 100px;
+  width: 80px;
 }
 
 .container {
